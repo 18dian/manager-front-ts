@@ -4,6 +4,7 @@ module.exports = {
     browser: true,
     node: true,
     es2021: true,
+    'vue/setup-compiler-macros': true
   },
   parser: 'vue-eslint-parser',
   extends: [
@@ -11,15 +12,15 @@ module.exports = {
     'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'prettier',
+    'prettier'
   ],
   parserOptions: {
     ecmaVersion: 12,
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true,
-    },
+      jsx: true
+    }
   },
   plugins: ['vue', '@typescript-eslint', 'prettier'],
   rules: {
@@ -41,15 +42,15 @@ module.exports = {
       'error',
       {
         argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-      },
+        varsIgnorePattern: '^_'
+      }
     ],
     'no-unused-vars': [
       'error',
       {
         argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-      },
+        varsIgnorePattern: '^_'
+      }
     ],
     'space-before-function-paren': 'off',
     'vue/attributes-order': 'off',
@@ -66,11 +67,11 @@ module.exports = {
         html: {
           void: 'always',
           normal: 'never',
-          component: 'always',
+          component: 'always'
         },
         svg: 'always',
-        math: 'always',
-      },
-    ],
-  },
+        math: 'always'
+      }
+    ]
+  }
 };

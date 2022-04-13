@@ -11,6 +11,7 @@ package.json
 .prettierignore
 LICENSE
 .eslintcache
+.auto-imports.d.ts
 *.lock
 yarn-error.log
 /public

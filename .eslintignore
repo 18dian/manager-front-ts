@@ -13,3 +13,4 @@ dist
 /bin
 Dockerfile
 .npmrc
+.auto-import.d.ts

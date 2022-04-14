@@ -72,6 +72,8 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from './../../stores/user';
+const router = useRouter();
 const isCollapse = ref(false);
 const userInfo = reactive({
   userName: '李林檀',
@@ -80,8 +82,11 @@ const userInfo = reactive({
 const toggle = () => {
   isCollapse.value = !isCollapse.value;
 };
+
+const user = useUserStore();
 const logout = () => {
-  console.log('退出');
+  user.changeUserInfo(null);
+  router.push('/login');
 };
 </script>
 
@@ -150,10 +155,10 @@ const logout = () => {
       background: #eef0f3;
       padding: 20px;
       height: calc(100vh - 50px);
+      box-sizing: border-box;
       .content {
         background: #fff;
         height: 100%;
-        box-sizing: border-box;
       }
     }
   }

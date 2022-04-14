@@ -9,4 +9,6 @@ for (const iconName in ELIcons) {
   app.component(iconName, (ELIcons as any)[iconName]);
 }
 
-app.use(router).mount('#app');
+const store = createPinia();
+
+app.use(store).use(router).mount('#app');

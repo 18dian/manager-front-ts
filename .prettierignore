@@ -12,6 +12,7 @@ package.json
 LICENSE
 .eslintcache
 .auto-imports.d.ts
+.components.d.ts
 *.lock
 yarn-error.log
 /public

@@ -13,4 +13,5 @@ dist
 /bin
 Dockerfile
 .npmrc
-.auto-import.d.ts
+.auto-imports.d.ts
+.components.d.ts

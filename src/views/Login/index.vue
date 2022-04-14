@@ -27,9 +27,11 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
 import { User, View } from '@element-plus/icons-vue';
 import type { ElForm } from 'element-plus';
+import request from './../../utils/request';
+
+const router = useRouter();
 
 type ElFormInstance = InstanceType<typeof ElForm>;
 const loginFormRef = ref<ElFormInstance>();
@@ -48,6 +50,16 @@ const submitForm = (formEl: ElFormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid, fields) => {
     if (valid) {
+      request
+        .post('/users/login', {
+          userName: loginForm.name,
+          userPwd: loginForm.password
+        })
+        .then((data: any) => {
+          if (data.length) {
+            router.push('/home');
+          }
+        });
       console.log('submit!', valid);
     } else {
       console.log('error submit!', fields);

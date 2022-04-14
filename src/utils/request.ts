@@ -5,7 +5,8 @@
 import axios, { AxiosPromise } from 'axios';
 import { ElMessage } from 'element-plus';
 import config from '../config';
-import router from '../router';
+
+const router = useRouter();
 
 interface IRequest {
   (options: any): AxiosPromise<any>;

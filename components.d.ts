@@ -4,7 +4,11 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Bread: typeof import('./src/components/bread.vue')['default'];
+    Breadcrumb: typeof import('./src/components/breadcrumb.vue')['default'];
     ElBadge: typeof import('element-plus/es')['ElBadge'];
+    ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb'];
+    ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem'];
     ElButton: typeof import('element-plus/es')['ElButton'];
     ElDropdown: typeof import('element-plus/es')['ElDropdown'];
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem'];
@@ -17,6 +21,7 @@ declare module 'vue' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem'];
     ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup'];
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu'];
+    Treemenu: typeof import('./src/components/treemenu.vue')['default'];
   }
 }
 

@@ -29,7 +29,8 @@
 <script setup lang="ts">
 import { User, View } from '@element-plus/icons-vue';
 import type { ElForm } from 'element-plus';
-import request from './../../utils/request';
+import { login } from './../../api';
+import { useUserStore } from './../../stores/user';
 
 const router = useRouter();
 
@@ -46,21 +47,21 @@ const rules = reactive({
   password: [{ required: true, message: '', trigger: 'blur' }]
 });
 
+const user = useUserStore();
+
 const submitForm = (formEl: ElFormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid, fields) => {
     if (valid) {
-      request
-        .post('/users/login', {
-          userName: loginForm.name,
-          userPwd: loginForm.password
-        })
-        .then((data: any) => {
-          if (data.length) {
-            router.push('/home');
-          }
-        });
-      console.log('submit!', valid);
+      login({
+        userName: loginForm.name,
+        userPwd: loginForm.password
+      }).then((data: any) => {
+        if (data.length) {
+          user.changeUserInfo(data[0]);
+          router.push('/home');
+        }
+      });
     } else {
       console.log('error submit!', fields);
       return false;

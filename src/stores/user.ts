@@ -11,7 +11,6 @@ export const useUserStore = defineStore({
      * @param {any} data
      */
     changeUserInfo(data: any) {
-      console.log(data, 'sss');
       this.userInfo = data;
       storage.setItem('userInfo', data);
     }

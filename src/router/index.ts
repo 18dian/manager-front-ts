@@ -6,14 +6,30 @@ const routes = [
     path: '/',
     component: BasicLayout,
     redirect: '/home',
+    meta: { title: '首页' },
     children: [
       {
         path: '/home',
-        component: () => import('../views/Home/index.vue')
+        component: () => import('../views/Home/index.vue'),
+        meta: {
+          title: '首页'
+        }
       },
       {
         path: '/menu',
-        component: () => import('../views/Menu/index.vue')
+        component: () => import('../views/Menu/index.vue'),
+        meta: {
+          title: '系统管理'
+        },
+        children: [
+          {
+            path: 'setting',
+            component: () => import('../views/Menu/index.vue'),
+            meta: {
+              title: '用户管理'
+            }
+          }
+        ]
       }
     ]
   },

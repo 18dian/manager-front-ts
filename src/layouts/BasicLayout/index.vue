@@ -14,26 +14,7 @@
         :collapse-transition="false"
         router
       >
-        <el-sub-menu index="1">
-          <template #title>
-            <el-icon><setting /></el-icon>
-            <span>系统管理</span>
-          </template>
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item two</el-menu-item>
-          <el-menu-item index="1-3">item one</el-menu-item>
-          <el-menu-item index="1-4">item two</el-menu-item>
-        </el-sub-menu>
-        <el-sub-menu index="2">
-          <template #title>
-            <el-icon><setting /></el-icon>
-            <span>审批管理</span>
-          </template>
-          <el-menu-item index="2-1">item one</el-menu-item>
-          <el-menu-item index="2-2">item two</el-menu-item>
-          <el-menu-item index="2-3">item one</el-menu-item>
-          <el-menu-item index="2-4">item two</el-menu-item>
-        </el-sub-menu>
+        <tree-menu :menuList="menuList" />
       </el-menu>
     </div>
     <div class="right-content">
@@ -43,7 +24,9 @@
             <fold v-if="!isCollapse" />
             <expand v-else />
           </el-icon>
-          <div class="bread">bread</div>
+          <div class="bread">
+            <bread-crumb />
+          </div>
         </div>
         <div class="user">
           <el-badge is-dot class="user-bell">
@@ -72,18 +55,45 @@
 </template>
 
 <script setup lang="ts">
+import TreeMenu from './../../components/treemenu.vue';
+import BreadCrumb from './../../components/breadcrumb.vue';
 import { useUserStore } from './../../stores/user';
 const router = useRouter();
+const user = useUserStore();
+
 const isCollapse = ref(false);
 const userInfo = reactive({
-  userName: '李林檀',
+  userName: user.userInfo?.userName || '',
   userEmail: 'aaa@qq.com'
 });
+
+const menuList = reactive([
+  {
+    _id: 1,
+    menuType: 1,
+    menuName: '系统管理',
+    icon: 'setting',
+    children: [
+      {
+        _id: 1.1,
+        menuType: 1,
+        menuName: '用户管理',
+        path: '/menu/setting'
+      }
+    ]
+  },
+  {
+    _id: 2,
+    menuType: 1,
+    menuName: '审批管理',
+    icon: 'promotion'
+  }
+]);
+
 const toggle = () => {
   isCollapse.value = !isCollapse.value;
 };
 
-const user = useUserStore();
 const logout = () => {
   user.changeUserInfo(null);
   router.push('/login');

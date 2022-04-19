@@ -4,6 +4,7 @@
  */
 import axios, { AxiosPromise } from 'axios';
 import { ElMessage } from 'element-plus';
+import stroage from './storage';
 import config from '../config';
 
 const router = useRouter();
@@ -23,6 +24,10 @@ const instance = axios.create({
 
 // 请求拦截
 instance.interceptors.request.use((req) => {
+  const headers = req.headers || {};
+  const userInfo = stroage.getItem('userInfo');
+  if (userInfo && !headers.Authorization)
+    headers.Authorization = 'Bearer ' + userInfo.token;
   return req;
 });
 

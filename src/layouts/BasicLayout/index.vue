@@ -46,9 +46,7 @@
         </div>
       </div>
       <div class="content-wrapper">
-        <div class="content">
-          <router-view />
-        </div>
+        <router-view />
       </div>
     </div>
   </div>
@@ -58,6 +56,16 @@
 import TreeMenu from './../../components/treemenu.vue';
 import BreadCrumb from './../../components/breadcrumb.vue';
 import { useUserStore } from './../../stores/user';
+import { getCount } from './../../api';
+
+onMounted(() => {
+  setTimeout(() => {
+    getCount().then((res: any) => {
+      console.log(res);
+    });
+  }, 8000);
+});
+
 const router = useRouter();
 const user = useUserStore();
 
@@ -78,7 +86,7 @@ const menuList = reactive([
         _id: 1.1,
         menuType: 1,
         menuName: '用户管理',
-        path: '/menu/setting'
+        path: '/system/user'
       }
     ]
   },
@@ -166,10 +174,6 @@ const logout = () => {
       padding: 20px;
       height: calc(100vh - 50px);
       box-sizing: border-box;
-      .content {
-        background: #fff;
-        height: 100%;
-      }
     }
   }
 }

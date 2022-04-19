@@ -16,15 +16,15 @@ const routes = [
         }
       },
       {
-        path: '/menu',
-        component: () => import('../views/Menu/index.vue'),
+        path: '/system',
+        component: () => import('../views/User/index.vue'),
         meta: {
           title: '系统管理'
         },
         children: [
           {
-            path: 'setting',
-            component: () => import('../views/Menu/index.vue'),
+            path: 'user',
+            component: () => import('../views/User/index.vue'),
             meta: {
               title: '用户管理'
             }

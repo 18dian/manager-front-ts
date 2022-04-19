@@ -6,16 +6,16 @@ import config from '../config';
 
 export default {
   setItem(key: string, value: any) {
-    this.getStorage()[key] = value;
-    const storageValue = JSON.stringify(this.getStorage());
-    window.localStorage.setItem(config.namespace, storageValue);
+    const storage: any = this.getStorage();
+    storage[key] = value;
+    window.localStorage.setItem(config.namespace, JSON.stringify(storage));
   },
   getItem(key: string) {
     return this.getStorage()[key];
   },
   getStorage() {
-    const stroage = window.localStorage.getItem(config.namespace) || '{}';
-    return JSON.parse(stroage);
+    const storage = window.localStorage.getItem(config.namespace) || '{}';
+    return JSON.parse(storage);
   },
   clearItem(key: string) {
     delete this.getStorage()[key];

@@ -57,8 +57,8 @@ const submitForm = (formEl: ElFormInstance | undefined) => {
         userName: loginForm.name,
         userPwd: loginForm.password
       }).then((data: any) => {
-        if (data.length) {
-          user.changeUserInfo(data[0]);
+        if (data) {
+          user.changeUserInfo(data);
           router.push('/home');
         }
       });

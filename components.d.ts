@@ -20,7 +20,11 @@ declare module 'vue' {
     ElMenu: typeof import('element-plus/es')['ElMenu'];
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem'];
     ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup'];
+    ElOption: typeof import('element-plus/es')['ElOption'];
+    ElSelect: typeof import('element-plus/es')['ElSelect'];
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu'];
+    ElTable: typeof import('element-plus/es')['ElTable'];
+    ElTableColumn: typeof import('element-plus/es')['ElTableColumn'];
     Treemenu: typeof import('./src/components/treemenu.vue')['default'];
   }
 }

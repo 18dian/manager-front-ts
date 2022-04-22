@@ -68,7 +68,10 @@ a{
   border-radius: 5px;
   background: #ffffff;
   margin-top: 20px;
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1;
   .action {
     border-radius: 5px 5px 0px 0px;
     background: #ffffff;
@@ -76,7 +79,8 @@ a{
     border-bottom: 1px solid #ece8e8;
   }
   .pagination {
-    text-align: right;
+    display: flex;
+    justify-content: right;
     padding: 10px;
   }
 }

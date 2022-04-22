@@ -56,14 +56,14 @@
 import TreeMenu from './../../components/treemenu.vue';
 import BreadCrumb from './../../components/breadcrumb.vue';
 import { useUserStore } from './../../stores/user';
-import { getCount } from './../../api';
+import { getMenuList } from './../../api';
+
+const menuList = ref([]);
 
 onMounted(() => {
-  setTimeout(() => {
-    getCount().then((res: any) => {
-      console.log(res);
-    });
-  }, 8000);
+  getMenuList().then((res: any) => {
+    menuList.value = res;
+  });
 });
 
 const router = useRouter();
@@ -74,29 +74,6 @@ const userInfo = reactive({
   userName: user.userInfo?.userName || '',
   userEmail: 'aaa@qq.com'
 });
-
-const menuList = reactive([
-  {
-    _id: 1,
-    menuType: 1,
-    menuName: '系统管理',
-    icon: 'setting',
-    children: [
-      {
-        _id: 1.1,
-        menuType: 1,
-        menuName: '用户管理',
-        path: '/system/user'
-      }
-    ]
-  },
-  {
-    _id: 2,
-    menuType: 1,
-    menuName: '审批管理',
-    icon: 'promotion'
-  }
-]);
 
 const toggle = () => {
   isCollapse.value = !isCollapse.value;
@@ -111,10 +88,12 @@ const logout = () => {
 <style lang="scss">
 .basic-layout {
   display: flex;
+  height: 100vh;
+  overflow: hidden;
   .slide-menu-wrap {
-    height: 100vh;
     background: #001529;
     transition: width 0.5s;
+    flex-shrink: 0;
     &.fold {
       width: 200px;
     }
@@ -144,6 +123,7 @@ const logout = () => {
   }
   .right-content {
     flex: 1;
+    overflow: hidden;
     .content-header {
       height: 50px;
       padding: 0 20px;

@@ -54,13 +54,18 @@ instance.interceptors.response.use((res) => {
  */
 const request: IRequest = (options: any) => {
   options.method = options.method || 'get';
+  console.log(options.mock, 'sss');
   if (options.method.toLowerCase() === 'get') {
     options.param = options.data;
+  }
+  let isMock = config.mock;
+  if (typeof options.mock !== 'undefined') {
+    isMock = options.mock;
   }
   if (config.env === 'production') {
     instance.defaults.baseURL = config.baseApi;
   } else {
-    instance.defaults.baseURL = config.mock ? config.mockApi : config.baseApi;
+    instance.defaults.baseURL = isMock ? config.mockApi : config.baseApi;
   }
   return instance(options);
 };

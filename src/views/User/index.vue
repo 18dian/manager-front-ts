@@ -47,10 +47,12 @@
         />
         <el-table-column label="操作" width="150">
           <template #default="scope">
-            <el-button size="small">编辑</el-button>
-            <el-button size="small" type="danger" @click="singleDel(scope.row)"
-              >删除</el-button
-            >
+            <el-button size="small" @click="editForm(scope.row)">
+              编辑
+            </el-button>
+            <el-button size="small" type="danger" @click="singleDel(scope.row)">
+              删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -63,32 +65,36 @@
       />
     </div>
     <el-dialog
-      v-model="showAddModal"
-      title="新增用户"
+      v-model="showModal"
+      :title="action === 'add' ? '用户新增' : '用户编辑'"
       :append-to-body="true"
       top="10vh"
+      @close="dialogClose(dialogForm)"
     >
       <el-form
-        :model="addUserForm"
+        :model="userForm"
         :rules="addUserRules"
         ref="dialogForm"
         label-position="right"
         label-width="100px"
       >
         <el-form-item label="用户名" prop="userName">
-          <el-input v-model="addUserForm.userName" />
+          <el-input v-model="userForm.userName" :disabled="action === 'edit'" />
         </el-form-item>
         <el-form-item label="邮箱" prop="userEmail">
-          <el-input v-model="addUserForm.userEmail" />
+          <el-input
+            v-model="userForm.userEmail"
+            :disabled="action === 'edit'"
+          />
         </el-form-item>
         <el-form-item label="手机号" prop="userMobile">
-          <el-input v-model="addUserForm.userMobile" />
+          <el-input v-model="userForm.userMobile" />
         </el-form-item>
         <el-form-item label="岗位" prop="job">
-          <el-input v-model="addUserForm.job" />
+          <el-input v-model="userForm.job" />
         </el-form-item>
         <el-form-item label="状态" prop="state">
-          <el-select v-model="addUserForm.state">
+          <el-select v-model="userForm.state">
             <el-option
               v-for="state in stateOptions"
               :label="state.label"
@@ -98,7 +104,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="系统角色" prop="roleList">
-          <el-select v-model="addUserForm.roleList">
+          <el-select v-model="userForm.roleList">
             <el-option
               v-for="role in roleList"
               :key="role._id"
@@ -111,7 +117,7 @@
         </el-form-item>
         <el-form-item label="所属部门" prop="deptId">
           <el-cascader
-            v-model="addUserForm.deptId"
+            v-model="userForm.deptId"
             :options="deptList"
             :props="{ value: '_id', label: 'deptName' }"
           />
@@ -119,7 +125,7 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="showAddModal = false">取消</el-button>
+          <el-button @click="dialogClose(dialogForm)">取消</el-button>
           <el-button type="primary" @click="dialogSubmit(dialogForm)">
             确定
           </el-button>
@@ -132,7 +138,13 @@
 <script setup lang="ts">
 import type { ElForm } from 'element-plus';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
-import { getUserList, deleteUser, getDeptList, getRoleList } from './../../api';
+import {
+  getUserList,
+  deleteUser,
+  getDeptList,
+  getRoleList,
+  userSubmit
+} from './../../api';
 
 onMounted(() => {
   getUserListFn();
@@ -238,7 +250,7 @@ const getUserListFn = async () => {
 const handleSearch = () => {
   getUserListFn();
 };
-// 重置查询条件
+// 共用重置
 const handleReset = (searchForm: ElFormInstance) => {
   searchForm.resetFields();
 };
@@ -251,17 +263,21 @@ const batchDel = async () => {
   const res = await deleteUser({
     userIds: checkIdList.value
   });
-  console.log(res);
+  if (res) {
+    getUserListFn();
+  }
 };
 // 单个删除
 const singleDel = async (row: any) => {
   const res = await deleteUser({
     userIds: [row.userId]
   });
-  console.log(res, 'del');
+  if (res) {
+    getUserListFn();
+  }
 };
 // 新增用户变量声明
-const addUserForm = reactive({
+const userForm = reactive({
   userName: '',
   userEmail: '',
   userMobile: '',
@@ -294,9 +310,10 @@ const addUserRules = reactive({
     }
   ]
 });
-const showAddModal = ref(false);
+const showModal = ref(false);
 const deptList = ref([]);
 const roleList = ref<any[]>([]);
+const action = ref('add');
 // 获取部门列表
 const getDeptListFn = async () => {
   const res = await getDeptList();
@@ -311,12 +328,39 @@ const getRoleListFn = async () => {
 };
 // 新增按钮点击
 const addUser = () => {
-  showAddModal.value = true;
+  showModal.value = true;
+  action.value = 'add';
 };
 // 新增用户表单提交
 const dialogForm = ref<ElFormInstance>();
 const dialogSubmit = (dialogForm: ElFormInstance) => {
-  console.log(dialogForm);
+  if (!dialogForm) return;
+  dialogForm.validate(async (valid) => {
+    if (valid) {
+      // toRaw将响应式的数据转成正常json
+      const params: any = toRaw(userForm);
+      params.action = action.value;
+      const res = await userSubmit(params);
+      if (res) {
+        showModal.value = false;
+        handleReset(dialogForm);
+        getUserListFn();
+      }
+    }
+  });
+};
+// 编辑数据
+const editForm = (row: any) => {
+  showModal.value = true;
+  action.value = 'edit';
+  nextTick(() => {
+    Object.assign(userForm, row);
+  });
+};
+// 关闭dialog
+const dialogClose = (dialogForm: ElFormInstance) => {
+  showModal.value = false;
+  handleReset(dialogForm);
 };
 </script>
 

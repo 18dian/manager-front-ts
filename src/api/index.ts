@@ -13,11 +13,11 @@ export const getMenuList = () => {
 };
 
 export const getUserList = (param = {}) => {
-  return request.get('/users/list', param, { mock: true });
+  return request.get('/users/list', param);
 };
 
 export const deleteUser = (param: any) => {
-  return request.post('users/delete', param, { mock: true });
+  return request.post('users/delete', param);
 };
 
 export const getDeptList = () => {
@@ -26,4 +26,8 @@ export const getDeptList = () => {
 
 export const getRoleList = () => {
   return request.get('/roles/allList', {}, { mock: true });
+};
+
+export const userSubmit = (params: any) => {
+  return request.post('/users/operate', params);
 };

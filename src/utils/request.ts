@@ -54,9 +54,8 @@ instance.interceptors.response.use((res) => {
  */
 const request: IRequest = (options: any) => {
   options.method = options.method || 'get';
-  console.log(options.mock, 'sss');
   if (options.method.toLowerCase() === 'get') {
-    options.param = options.data;
+    options.params = options.data;
   }
   let isMock = config.mock;
   if (typeof options.mock !== 'undefined') {

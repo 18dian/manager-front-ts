@@ -8,10 +8,6 @@ export const getCount = () => {
   return request.get('/users/count', {}, { mock: false });
 };
 
-export const getMenuList = () => {
-  return request.get('/menu/list', {}, { mock: true });
-};
-
 export const getUserList = (param = {}) => {
   return request.get('/users/list', param);
 };
@@ -30,4 +26,12 @@ export const getRoleList = () => {
 
 export const userSubmit = (params: any) => {
   return request.post('/users/operate', params);
+};
+
+export const getMenuList = (params = {}) => {
+  return request.get('/menu/list', params);
+};
+
+export const menuSubmit = (params: any) => {
+  return request.post('/menu/operate', params);
 };

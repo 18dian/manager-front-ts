@@ -1,5 +1,5 @@
 <template>
-  <div class="user-manager">
+  <div class="user-manager manager">
     <div class="query-form">
       <el-form ref="searchFormRef" :model="user" :inline="true">
         <el-form-item label="用户ID" prop="userId">
@@ -120,6 +120,7 @@
             v-model="userForm.deptId"
             :options="deptList"
             :props="{ value: '_id', label: 'deptName' }"
+            clearable
           />
         </el-form-item>
       </el-form>
@@ -251,8 +252,8 @@ const handleSearch = () => {
   getUserListFn();
 };
 // 共用重置
-const handleReset = (searchForm: ElFormInstance) => {
-  searchForm.resetFields();
+const handleReset = (searchForm: ElFormInstance | undefined) => {
+  searchForm?.resetFields();
 };
 // 表格选中
 const handleSelectChange = (val: any) => {
@@ -333,7 +334,7 @@ const addUser = () => {
 };
 // 新增用户表单提交
 const dialogForm = ref<ElFormInstance>();
-const dialogSubmit = (dialogForm: ElFormInstance) => {
+const dialogSubmit = (dialogForm: ElFormInstance | undefined) => {
   if (!dialogForm) return;
   dialogForm.validate(async (valid) => {
     if (valid) {
@@ -358,16 +359,10 @@ const editForm = (row: any) => {
   });
 };
 // 关闭dialog
-const dialogClose = (dialogForm: ElFormInstance) => {
+const dialogClose = (dialogForm: ElFormInstance | undefined) => {
   showModal.value = false;
   handleReset(dialogForm);
 };
 </script>
 
-<style lang="scss">
-.user-manager {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-</style>
+<style lang="scss"></style>

@@ -16,20 +16,18 @@ const routes = [
         }
       },
       {
-        path: '/system',
+        path: '/system/user',
         component: () => import('../views/User/index.vue'),
         meta: {
-          title: '系统管理'
-        },
-        children: [
-          {
-            path: 'user',
-            component: () => import('../views/User/index.vue'),
-            meta: {
-              title: '用户管理'
-            }
-          }
-        ]
+          title: '用户管理'
+        }
+      },
+      {
+        path: '/system/menu',
+        component: () => import('../views/Menu/index.vue'),
+        meta: {
+          title: '菜单管理'
+        }
       }
     ]
   },

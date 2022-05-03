@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import AutoImport from 'unplugin-auto-import/vite';
+import ElementPlus from 'unplugin-element-plus/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 
@@ -27,6 +28,9 @@ export default defineConfig({
       },
       resolvers: [ElementPlusResolver()],
       dts: true //auto generation auto-imports.d.ts file
+    }),
+    ElementPlus({
+      useSource: true
     }),
     Components({
       resolvers: [ElementPlusResolver()]

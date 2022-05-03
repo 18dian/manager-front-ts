@@ -33,7 +33,7 @@ instance.interceptors.request.use((req) => {
 
 // 响应拦截
 instance.interceptors.response.use((res) => {
-  const { data, code } = res.data;
+  const { data, code, msg } = res.data;
   if (code === 200) {
     return data;
   } else if (code === 500001) {
@@ -43,7 +43,8 @@ instance.interceptors.response.use((res) => {
     }, 1500);
     return Promise.reject(TOKEN_INVALID);
   } else {
-    return Promise.reject(NETWORK_ERROR);
+    ElMessage.error(msg || NETWORK_ERROR);
+    return Promise.reject(msg || NETWORK_ERROR);
   }
 });
 
